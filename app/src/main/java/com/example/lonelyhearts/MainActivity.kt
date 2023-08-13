@@ -1,22 +1,19 @@
 package com.example.lonelyhearts
 
-
 import android.os.Bundle
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 
-
-
 class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView // Declare webView at the class level
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-        val webView: WebView = findViewById(R.id.webView)
+        webView = findViewById(R.id.webView) // Initialize webView
         webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         webView.settings.javaScriptEnabled = true // Enable JavaScript
 
@@ -32,5 +29,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         webView.loadUrl("https://www.lonelyhearts.pp.ua/")
+    }
+
+    override fun onBackPressed() {
+        // If the WebView can go back, navigate back in its history
+        if (webView.canGoBack()) {
+            webView.goBack()
+        } else {
+            // If the WebView cannot go back, proceed with default back button behavior
+            super.onBackPressed()
+        }
     }
 }
